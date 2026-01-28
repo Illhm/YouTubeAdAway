@@ -9,6 +9,27 @@
 
     </PreferenceCategory>
 
+    <PreferenceCategory app:title="@string/status_checker_title">
+        <Preference
+            app:key="status_video_ads"
+            app:title="@string/status_video_ads"
+            app:summary="Waiting..."
+            app:icon="@android:drawable/ic_popup_sync"/>
+        <Preference
+            app:key="status_ad_cards"
+            app:title="@string/status_ad_cards"
+            app:summary="Waiting..."
+            app:icon="@android:drawable/ic_popup_sync"/>
+        <Preference
+            app:key="status_bg_playback"
+            app:title="@string/status_bg_playback"
+            app:summary="Waiting..."
+            app:icon="@android:drawable/ic_popup_sync"/>
+        <Preference
+            app:key="view_logs"
+            app:title="@string/view_logs_title"/>
+    </PreferenceCategory>
+
     <PreferenceCategory app:title="@string/ads_removal">
 
         <SwitchPreferenceCompat
