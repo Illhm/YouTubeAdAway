@@ -1,4 +1,8 @@
+#<<<<<<< unit-testing-setup-17682910186125738637
 name: Build Release
+#=======
+name: Build Release 
+#>>>>>>> master
 
 on:
   push:
@@ -29,6 +33,7 @@ jobs:
     - name: Build Release APK
       run: ./gradlew assembleRelease
 
+#<<<<<<< unit-testing-setup-17682910186125738637
     - name: Sign Release APK
       run: |
         # Generate a temporary keystore
@@ -44,8 +49,14 @@ jobs:
         # Verify
         $APKSIGNER verify app/build/outputs/apk/release/app-release-signed.apk
 
+#=======
+#>>>>>>> master
     - name: Upload Release APK
       uses: actions/upload-artifact@v4
       with:
         name: app-release
+#<<<<<<< unit-testing-setup-17682910186125738637
         path: app/build/outputs/apk/release/app-release-signed.apk
+#=======
+        path: app/build/outputs/apk/release/*.apk
+#>>>>>>> master
