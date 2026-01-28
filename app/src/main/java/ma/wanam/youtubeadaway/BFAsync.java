@@ -30,6 +30,7 @@ public class BFAsync extends AsyncTask<XC_LoadPackage.LoadPackageParam, Void, Bo
     private volatile Method emptyComponentMethod = null;
     private volatile Method fingerprintMethod = null;
     private volatile Optional<Field> pathBuilderField = Optional.empty();
+    private volatile Optional<Field> emptyComponentField = Optional.empty();
     private XC_MethodHook.Unhook unhookFilterMethod;
     private volatile boolean isAtTopOfView = true;
     private Handler handler;
@@ -368,7 +369,10 @@ public class BFAsync extends AsyncTask<XC_LoadPackage.LoadPackageParam, Void, Bo
                             // Create emptyComponent from current componentContext
                             Object x = emptyComponentMethod.invoke(null, param.args[0]);
                             // Get created emptyComponent
-                            Object y = XposedHelpers.getObjectField(x, "a");
+                            if (!emptyComponentField.isPresent()) {
+                                emptyComponentField = Optional.of(XposedHelpers.findField(x.getClass(), "a"));
+                            }
+                            Object y = emptyComponentField.get().get(x);
                             param.setResult(y);
                         }
                     } else {
