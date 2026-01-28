@@ -1,325 +1,46 @@
-----part 2 start----
-[ 2026-01-28T13:35:10.803    10691:  4727:  4727 I/LSPosed-Bridge  ] Loading legacy module ma.wanam.youtubeadaway from /data/app/~~1Ci09o1eGvc-RArwcVDJ9A==/ma.wanam.youtubeadaway-TOfODabjOHiWwxd_zJzEbQ==/base.apk
-[ 2026-01-28T13:35:10.831    10691:  4727:  4727 I/LSPosed-Bridge  ]   Loading class ma.wanam.youtubeadaway.Xposed
-[ 2026-01-28T13:35:10.891    10691:  4727:  4727 I/LSPosed-Bridge  ] YouTube AdAway version: 510
-[ 2026-01-28T13:35:18.993    10622: 14485: 14485 I/LSPosed-Bridge  ] Loading legacy module ma.wanam.youtubeadaway from /data/app/~~1Ci09o1eGvc-RArwcVDJ9A==/ma.wanam.youtubeadaway-TOfODabjOHiWwxd_zJzEbQ==/base.apk
-[ 2026-01-28T13:35:19.014    10622: 14485: 14485 I/LSPosed-Bridge  ]   Loading class ma.wanam.youtubeadaway.Xposed
-[ 2026-01-28T13:35:19.071    10622: 14485: 14485 I/LSPosed-Bridge  ] Hooking YouTube version: com.google.android.youtube 1560798656
-[ 2026-01-28T13:35:19.076    10622: 14485: 24790 I/LSPosed-Bridge  ] Crash unexpectedly: java.lang.RuntimeException: An error occurred while executing doInBackground()
-	at android.os.AsyncTask$4.done(AsyncTask.java:415)
-	at java.util.concurrent.FutureTask.finishCompletion(FutureTask.java:381)
-	at java.util.concurrent.FutureTask.setException(FutureTask.java:250)
-	at java.util.concurrent.FutureTask.run(FutureTask.java:269)
-	at android.os.AsyncTask$SerialExecutor$1.run(AsyncTask.java:305)
-	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1137)
-	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:637)
-	at java.lang.Thread.run(Thread.java:1012)
-Caused by: HLOeKzPAcb.heBwnzbJidb.XposedHelpers$ClassNotFoundError: java.lang.ClassNotFoundException: com.google.android.apps.youtube.app.watchwhile.WatchWhileActivity
-	at HLOeKzPAcb.heBwnzbJidb.XposedHelpers.findClass(Unknown Source:12)
-	at HLOeKzPAcb.heBwnzbJidb.XposedHelpers.findAndHookMethod(SourceFile:2)
-	at ma.wanam.youtubeadaway.BFAsync.doInBackground(BFAsync.java:77)
-	at ma.wanam.youtubeadaway.BFAsync.doInBackground(BFAsync.java:27)
-	at android.os.AsyncTask$3.call(AsyncTask.java:394)
-	at java.util.concurrent.FutureTask.run(FutureTask.java:264)
-	... 4 more
-Caused by: java.lang.ClassNotFoundException: com.google.android.apps.youtube.app.watchwhile.WatchWhileActivity
-	at java.lang.Class.classForName(Native Method)
-	at java.lang.Class.forName(Class.java:454)
-	at q.a(Unknown Source:16)
-	at HLOeKzPAcb.heBwnzbJidb.XposedHelpers.findClass(Unknown Source:4)
-	... 9 more
-Caused by: java.lang.ClassNotFoundException: com.google.android.apps.youtube.app.watchwhile.WatchWhileActivity
-	... 13 more
-[ 2026-01-28T13:35:20.855    10622: 14486: 14486 I/LSPosed-Bridge  ] Loading legacy module ma.wanam.youtubeadaway from /data/app/~~1Ci09o1eGvc-RArwcVDJ9A==/ma.wanam.youtubeadaway-TOfODabjOHiWwxd_zJzEbQ==/base.apk
-[ 2026-01-28T13:35:20.873    10622: 14486: 14486 I/LSPosed-Bridge  ]   Loading class ma.wanam.youtubeadaway.Xposed
-[ 2026-01-28T13:35:20.910    10622: 14486: 14486 I/LSPosed-Bridge  ] Hooking YouTube version: com.google.android.youtube 1560798656
-[ 2026-01-28T13:35:20.914    10622: 14486: 24904 I/LSPosed-Bridge  ] Crash unexpectedly: java.lang.RuntimeException: An error occurred while executing doInBackground()
-	at android.os.AsyncTask$4.done(AsyncTask.java:415)
-	at java.util.concurrent.FutureTask.finishCompletion(FutureTask.java:381)
-	at java.util.concurrent.FutureTask.setException(FutureTask.java:250)
-	at java.util.concurrent.FutureTask.run(FutureTask.java:269)
-	at android.os.AsyncTask$SerialExecutor$1.run(AsyncTask.java:305)
-	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1137)
-	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:637)
-	at java.lang.Thread.run(Thread.java:1012)
-Caused by: HLOeKzPAcb.heBwnzbJidb.XposedHelpers$ClassNotFoundError: java.lang.ClassNotFoundException: com.google.android.apps.youtube.app.watchwhile.WatchWhileActivity
-	at HLOeKzPAcb.heBwnzbJidb.XposedHelpers.findClass(Unknown Source:12)
-	at HLOeKzPAcb.heBwnzbJidb.XposedHelpers.findAndHookMethod(SourceFile:2)
-	at ma.wanam.youtubeadaway.BFAsync.doInBackground(BFAsync.java:77)
-	at ma.wanam.youtubeadaway.BFAsync.doInBackground(BFAsync.java:27)
-	at android.os.AsyncTask$3.call(AsyncTask.java:394)
-	at java.util.concurrent.FutureTask.run(FutureTask.java:264)
-	... 4 more
-Caused by: java.lang.ClassNotFoundException: com.google.android.apps.youtube.app.watchwhile.WatchWhileActivity
-	at java.lang.Class.classForName(Native Method)
-	at java.lang.Class.forName(Class.java:454)
-	at q.a(Unknown Source:16)
-	at HLOeKzPAcb.heBwnzbJidb.XposedHelpers.findClass(Unknown Source:4)
-	... 9 more
-Caused by: java.lang.ClassNotFoundException: com.google.android.apps.youtube.app.watchwhile.WatchWhileActivity
-	... 13 more
-[ 2026-01-28T13:35:21.840    10622: 14488: 14488 I/LSPosed-Bridge  ] Loading legacy module ma.wanam.youtubeadaway from /data/app/~~1Ci09o1eGvc-RArwcVDJ9A==/ma.wanam.youtubeadaway-TOfODabjOHiWwxd_zJzEbQ==/base.apk
-[ 2026-01-28T13:35:21.857    10622: 14488: 14488 I/LSPosed-Bridge  ]   Loading class ma.wanam.youtubeadaway.Xposed
-[ 2026-01-28T13:35:21.898    10622: 14488: 14488 I/LSPosed-Bridge  ] Hooking YouTube version: com.google.android.youtube 1560798656
-[ 2026-01-28T13:35:21.903    10622: 14488: 24930 I/LSPosed-Bridge  ] Crash unexpectedly: java.lang.RuntimeException: An error occurred while executing doInBackground()
-	at android.os.AsyncTask$4.done(AsyncTask.java:415)
-	at java.util.concurrent.FutureTask.finishCompletion(FutureTask.java:381)
-	at java.util.concurrent.FutureTask.setException(FutureTask.java:250)
-	at java.util.concurrent.FutureTask.run(FutureTask.java:269)
-	at android.os.AsyncTask$SerialExecutor$1.run(AsyncTask.java:305)
-	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1137)
-	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:637)
-	at java.lang.Thread.run(Thread.java:1012)
-Caused by: HLOeKzPAcb.heBwnzbJidb.XposedHelpers$ClassNotFoundError: java.lang.ClassNotFoundException: com.google.android.apps.youtube.app.watchwhile.WatchWhileActivity
-	at HLOeKzPAcb.heBwnzbJidb.XposedHelpers.findClass(Unknown Source:12)
-	at HLOeKzPAcb.heBwnzbJidb.XposedHelpers.findAndHookMethod(SourceFile:2)
-	at ma.wanam.youtubeadaway.BFAsync.doInBackground(BFAsync.java:77)
-	at ma.wanam.youtubeadaway.BFAsync.doInBackground(BFAsync.java:27)
-	at android.os.AsyncTask$3.call(AsyncTask.java:394)
-	at java.util.concurrent.FutureTask.run(FutureTask.java:264)
-	... 4 more
-Caused by: java.lang.ClassNotFoundException: com.google.android.apps.youtube.app.watchwhile.WatchWhileActivity
-	at java.lang.Class.classForName(Native Method)
-	at java.lang.Class.forName(Class.java:454)
-	at q.a(Unknown Source:16)
-	at HLOeKzPAcb.heBwnzbJidb.XposedHelpers.findClass(Unknown Source:4)
-	... 9 more
-Caused by: java.lang.ClassNotFoundException: com.google.android.apps.youtube.app.watchwhile.WatchWhileActivity
-	... 13 more
-[ 2026-01-28T13:35:30.603    10691: 24946: 24946 I/LSPosed-Bridge  ] Loading legacy module ma.wanam.youtubeadaway from /data/app/~~1Ci09o1eGvc-RArwcVDJ9A==/ma.wanam.youtubeadaway-TOfODabjOHiWwxd_zJzEbQ==/base.apk
-[ 2026-01-28T13:35:30.620    10691: 24946: 24946 I/LSPosed-Bridge  ]   Loading class ma.wanam.youtubeadaway.Xposed
-[ 2026-01-28T13:35:30.664    10691: 24946: 24946 I/LSPosed-Bridge  ] YouTube AdAway version: 510
-[ 2026-01-28T13:35:33.942    10622: 25248: 25248 I/LSPosed-Bridge  ] Loading legacy module ma.wanam.youtubeadaway from /data/app/~~1Ci09o1eGvc-RArwcVDJ9A==/ma.wanam.youtubeadaway-TOfODabjOHiWwxd_zJzEbQ==/base.apk
-[ 2026-01-28T13:35:33.960    10622: 25248: 25248 I/LSPosed-Bridge  ]   Loading class ma.wanam.youtubeadaway.Xposed
-[ 2026-01-28T13:35:33.996    10622: 25248: 25248 I/LSPosed-Bridge  ] Hooking YouTube version: com.google.android.youtube 1560798656
-[ 2026-01-28T13:35:34.000    10622: 25248: 25320 I/LSPosed-Bridge  ] Crash unexpectedly: java.lang.RuntimeException: An error occurred while executing doInBackground()
-	at android.os.AsyncTask$4.done(AsyncTask.java:415)
-	at java.util.concurrent.FutureTask.finishCompletion(FutureTask.java:381)
-	at java.util.concurrent.FutureTask.setException(FutureTask.java:250)
-	at java.util.concurrent.FutureTask.run(FutureTask.java:269)
-	at android.os.AsyncTask$SerialExecutor$1.run(AsyncTask.java:305)
-	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1137)
-	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:637)
-	at java.lang.Thread.run(Thread.java:1012)
-Caused by: HLOeKzPAcb.heBwnzbJidb.XposedHelpers$ClassNotFoundError: java.lang.ClassNotFoundException: com.google.android.apps.youtube.app.watchwhile.WatchWhileActivity
-	at HLOeKzPAcb.heBwnzbJidb.XposedHelpers.findClass(Unknown Source:12)
-	at HLOeKzPAcb.heBwnzbJidb.XposedHelpers.findAndHookMethod(SourceFile:2)
-	at ma.wanam.youtubeadaway.BFAsync.doInBackground(BFAsync.java:77)
-	at ma.wanam.youtubeadaway.BFAsync.doInBackground(BFAsync.java:27)
-	at android.os.AsyncTask$3.call(AsyncTask.java:394)
-	at java.util.concurrent.FutureTask.run(FutureTask.java:264)
-	... 4 more
-Caused by: java.lang.ClassNotFoundException: com.google.android.apps.youtube.app.watchwhile.WatchWhileActivity
-	at java.lang.Class.classForName(Native Method)
-	at java.lang.Class.forName(Class.java:454)
-	at q.a(Unknown Source:16)
-	at HLOeKzPAcb.heBwnzbJidb.XposedHelpers.findClass(Unknown Source:4)
-	... 9 more
-Caused by: java.lang.ClassNotFoundException: com.google.android.apps.youtube.app.watchwhile.WatchWhileActivity
-	... 13 more
-[ 2026-01-28T13:35:34.844    10622: 25249: 25249 I/LSPosed-Bridge  ] Loading legacy module ma.wanam.youtubeadaway from /data/app/~~1Ci09o1eGvc-RArwcVDJ9A==/ma.wanam.youtubeadaway-TOfODabjOHiWwxd_zJzEbQ==/base.apk
-[ 2026-01-28T13:35:34.862    10622: 25249: 25249 I/LSPosed-Bridge  ]   Loading class ma.wanam.youtubeadaway.Xposed
-[ 2026-01-28T13:35:34.901    10622: 25249: 25249 I/LSPosed-Bridge  ] Hooking YouTube version: com.google.android.youtube 1560798656
-[ 2026-01-28T13:35:34.904    10622: 25249: 25349 I/LSPosed-Bridge  ] Crash unexpectedly: java.lang.RuntimeException: An error occurred while executing doInBackground()
-	at android.os.AsyncTask$4.done(AsyncTask.java:415)
-	at java.util.concurrent.FutureTask.finishCompletion(FutureTask.java:381)
-	at java.util.concurrent.FutureTask.setException(FutureTask.java:250)
-	at java.util.concurrent.FutureTask.run(FutureTask.java:269)
-	at android.os.AsyncTask$SerialExecutor$1.run(AsyncTask.java:305)
-	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1137)
-	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:637)
-	at java.lang.Thread.run(Thread.java:1012)
-Caused by: HLOeKzPAcb.heBwnzbJidb.XposedHelpers$ClassNotFoundError: java.lang.ClassNotFoundException: com.google.android.apps.youtube.app.watchwhile.WatchWhileActivity
-	at HLOeKzPAcb.heBwnzbJidb.XposedHelpers.findClass(Unknown Source:12)
-	at HLOeKzPAcb.heBwnzbJidb.XposedHelpers.findAndHookMethod(SourceFile:2)
-	at ma.wanam.youtubeadaway.BFAsync.doInBackground(BFAsync.java:77)
-	at ma.wanam.youtubeadaway.BFAsync.doInBackground(BFAsync.java:27)
-	at android.os.AsyncTask$3.call(AsyncTask.java:394)
-	at java.util.concurrent.FutureTask.run(FutureTask.java:264)
-	... 4 more
-Caused by: java.lang.ClassNotFoundException: com.google.android.apps.youtube.app.watchwhile.WatchWhileActivity
-	at java.lang.Class.classForName(Native Method)
-	at java.lang.Class.forName(Class.java:454)
-	at q.a(Unknown Source:16)
-	at HLOeKzPAcb.heBwnzbJidb.XposedHelpers.findClass(Unknown Source:4)
-	... 9 more
-Caused by: java.lang.ClassNotFoundException: com.google.android.apps.youtube.app.watchwhile.WatchWhileActivity
-	... 13 more
-[ 2026-01-28T13:35:41.352    10622: 25250: 25250 I/LSPosed-Bridge  ] Loading legacy module ma.wanam.youtubeadaway from /data/app/~~1Ci09o1eGvc-RArwcVDJ9A==/ma.wanam.youtubeadaway-TOfODabjOHiWwxd_zJzEbQ==/base.apk
-[ 2026-01-28T13:35:41.370    10622: 25250: 25250 I/LSPosed-Bridge  ]   Loading class ma.wanam.youtubeadaway.Xposed
-[ 2026-01-28T13:35:41.405    10622: 25250: 25250 I/LSPosed-Bridge  ] Hooking YouTube version: com.google.android.youtube 1560798656
-[ 2026-01-28T13:35:51.849    10622: 25251: 25251 I/LSPosed-Bridge  ] Loading legacy module ma.wanam.youtubeadaway from /data/app/~~1Ci09o1eGvc-RArwcVDJ9A==/ma.wanam.youtubeadaway-TOfODabjOHiWwxd_zJzEbQ==/base.apk
-[ 2026-01-28T13:35:51.867    10622: 25251: 25251 I/LSPosed-Bridge  ]   Loading class ma.wanam.youtubeadaway.Xposed
-[ 2026-01-28T13:35:51.908    10622: 25251: 25251 I/LSPosed-Bridge  ] Hooking YouTube version: com.google.android.youtube 1560798656
-[ 2026-01-28T13:35:51.912    10622: 25251: 25624 I/LSPosed-Bridge  ] Crash unexpectedly: java.lang.RuntimeException: An error occurred while executing doInBackground()
-	at android.os.AsyncTask$4.done(AsyncTask.java:415)
-	at java.util.concurrent.FutureTask.finishCompletion(FutureTask.java:381)
-	at java.util.concurrent.FutureTask.setException(FutureTask.java:250)
-	at java.util.concurrent.FutureTask.run(FutureTask.java:269)
-	at android.os.AsyncTask$SerialExecutor$1.run(AsyncTask.java:305)
-	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1137)
-	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:637)
-	at java.lang.Thread.run(Thread.java:1012)
-Caused by: HLOeKzPAcb.heBwnzbJidb.XposedHelpers$ClassNotFoundError: java.lang.ClassNotFoundException: com.google.android.apps.youtube.app.watchwhile.WatchWhileActivity
-	at HLOeKzPAcb.heBwnzbJidb.XposedHelpers.findClass(Unknown Source:12)
-	at HLOeKzPAcb.heBwnzbJidb.XposedHelpers.findAndHookMethod(SourceFile:2)
-	at ma.wanam.youtubeadaway.BFAsync.doInBackground(BFAsync.java:77)
-	at ma.wanam.youtubeadaway.BFAsync.doInBackground(BFAsync.java:27)
-	at android.os.AsyncTask$3.call(AsyncTask.java:394)
-	at java.util.concurrent.FutureTask.run(FutureTask.java:264)
-	... 4 more
-Caused by: java.lang.ClassNotFoundException: com.google.android.apps.youtube.app.watchwhile.WatchWhileActivity
-	at java.lang.Class.classForName(Native Method)
-	at java.lang.Class.forName(Class.java:454)
-	at q.a(Unknown Source:16)
-	at HLOeKzPAcb.heBwnzbJidb.XposedHelpers.findClass(Unknown Source:4)
-	... 9 more
-Caused by: java.lang.ClassNotFoundException: com.google.android.apps.youtube.app.watchwhile.WatchWhileActivity
-	... 13 more
-[ 2026-01-28T13:35:52.661    10622: 25252: 25252 I/LSPosed-Bridge  ] Loading legacy module ma.wanam.youtubeadaway from /data/app/~~1Ci09o1eGvc-RArwcVDJ9A==/ma.wanam.youtubeadaway-TOfODabjOHiWwxd_zJzEbQ==/base.apk
-[ 2026-01-28T13:35:52.679    10622: 25252: 25252 I/LSPosed-Bridge  ]   Loading class ma.wanam.youtubeadaway.Xposed
-[ 2026-01-28T13:35:52.719    10622: 25252: 25252 I/LSPosed-Bridge  ] Hooking YouTube version: com.google.android.youtube 1560798656
-[ 2026-01-28T13:35:52.723    10622: 25252: 25647 I/LSPosed-Bridge  ] Crash unexpectedly: java.lang.RuntimeException: An error occurred while executing doInBackground()
-	at android.os.AsyncTask$4.done(AsyncTask.java:415)
-	at java.util.concurrent.FutureTask.finishCompletion(FutureTask.java:381)
-	at java.util.concurrent.FutureTask.setException(FutureTask.java:250)
-	at java.util.concurrent.FutureTask.run(FutureTask.java:269)
-	at android.os.AsyncTask$SerialExecutor$1.run(AsyncTask.java:305)
-	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1137)
-	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:637)
-	at java.lang.Thread.run(Thread.java:1012)
-Caused by: HLOeKzPAcb.heBwnzbJidb.XposedHelpers$ClassNotFoundError: java.lang.ClassNotFoundException: com.google.android.apps.youtube.app.watchwhile.WatchWhileActivity
-	at HLOeKzPAcb.heBwnzbJidb.XposedHelpers.findClass(Unknown Source:12)
-	at HLOeKzPAcb.heBwnzbJidb.XposedHelpers.findAndHookMethod(SourceFile:2)
-	at ma.wanam.youtubeadaway.BFAsync.doInBackground(BFAsync.java:77)
-	at ma.wanam.youtubeadaway.BFAsync.doInBackground(BFAsync.java:27)
-	at android.os.AsyncTask$3.call(AsyncTask.java:394)
-	at java.util.concurrent.FutureTask.run(FutureTask.java:264)
-	... 4 more
-Caused by: java.lang.ClassNotFoundException: com.google.android.apps.youtube.app.watchwhile.WatchWhileActivity
-	at java.lang.Class.classForName(Native Method)
-	at java.lang.Class.forName(Class.java:454)
-	at q.a(Unknown Source:16)
-	at HLOeKzPAcb.heBwnzbJidb.XposedHelpers.findClass(Unknown Source:4)
-	... 9 more
-Caused by: java.lang.ClassNotFoundException: com.google.android.apps.youtube.app.watchwhile.WatchWhileActivity
-	... 13 more
-[ 2026-01-28T13:35:53.533    10622: 25253: 25253 I/LSPosed-Bridge  ] Loading legacy module ma.wanam.youtubeadaway from /data/app/~~1Ci09o1eGvc-RArwcVDJ9A==/ma.wanam.youtubeadaway-TOfODabjOHiWwxd_zJzEbQ==/base.apk
-[ 2026-01-28T13:35:53.551    10622: 25253: 25253 I/LSPosed-Bridge  ]   Loading class ma.wanam.youtubeadaway.Xposed
-[ 2026-01-28T13:35:53.589    10622: 25253: 25253 I/LSPosed-Bridge  ] Hooking YouTube version: com.google.android.youtube 1560798656
-[ 2026-01-28T13:35:53.593    10622: 25253: 25668 I/LSPosed-Bridge  ] Crash unexpectedly: java.lang.RuntimeException: An error occurred while executing doInBackground()
-	at android.os.AsyncTask$4.done(AsyncTask.java:415)
-	at java.util.concurrent.FutureTask.finishCompletion(FutureTask.java:381)
-	at java.util.concurrent.FutureTask.setException(FutureTask.java:250)
-	at java.util.concurrent.FutureTask.run(FutureTask.java:269)
-	at android.os.AsyncTask$SerialExecutor$1.run(AsyncTask.java:305)
-	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1137)
-	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:637)
-	at java.lang.Thread.run(Thread.java:1012)
-Caused by: HLOeKzPAcb.heBwnzbJidb.XposedHelpers$ClassNotFoundError: java.lang.ClassNotFoundException: com.google.android.apps.youtube.app.watchwhile.WatchWhileActivity
-	at HLOeKzPAcb.heBwnzbJidb.XposedHelpers.findClass(Unknown Source:12)
-	at HLOeKzPAcb.heBwnzbJidb.XposedHelpers.findAndHookMethod(SourceFile:2)
-	at ma.wanam.youtubeadaway.BFAsync.doInBackground(BFAsync.java:77)
-	at ma.wanam.youtubeadaway.BFAsync.doInBackground(BFAsync.java:27)
-	at android.os.AsyncTask$3.call(AsyncTask.java:394)
-	at java.util.concurrent.FutureTask.run(FutureTask.java:264)
-	... 4 more
-Caused by: java.lang.ClassNotFoundException: com.google.android.apps.youtube.app.watchwhile.WatchWhileActivity
-	at java.lang.Class.classForName(Native Method)
-	at java.lang.Class.forName(Class.java:454)
-	at q.a(Unknown Source:16)
-	at HLOeKzPAcb.heBwnzbJidb.XposedHelpers.findClass(Unknown Source:4)
-	... 9 more
-Caused by: java.lang.ClassNotFoundException: com.google.android.apps.youtube.app.watchwhile.WatchWhileActivity
-	... 13 more
-[ 2026-01-28T13:35:54.379    10622: 25254: 25254 I/LSPosed-Bridge  ] Loading legacy module ma.wanam.youtubeadaway from /data/app/~~1Ci09o1eGvc-RArwcVDJ9A==/ma.wanam.youtubeadaway-TOfODabjOHiWwxd_zJzEbQ==/base.apk
-[ 2026-01-28T13:35:54.398    10622: 25254: 25254 I/LSPosed-Bridge  ]   Loading class ma.wanam.youtubeadaway.Xposed
-[ 2026-01-28T13:35:54.433    10622: 25254: 25254 I/LSPosed-Bridge  ] Hooking YouTube version: com.google.android.youtube 1560798656
-[ 2026-01-28T13:35:54.435    10622: 25254: 25694 I/LSPosed-Bridge  ] Crash unexpectedly: java.lang.RuntimeException: An error occurred while executing doInBackground()
-	at android.os.AsyncTask$4.done(AsyncTask.java:415)
-	at java.util.concurrent.FutureTask.finishCompletion(FutureTask.java:381)
-	at java.util.concurrent.FutureTask.setException(FutureTask.java:250)
-	at java.util.concurrent.FutureTask.run(FutureTask.java:269)
-	at android.os.AsyncTask$SerialExecutor$1.run(AsyncTask.java:305)
-	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1137)
-	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:637)
-	at java.lang.Thread.run(Thread.java:1012)
-Caused by: HLOeKzPAcb.heBwnzbJidb.XposedHelpers$ClassNotFoundError: java.lang.ClassNotFoundException: com.google.android.apps.youtube.app.watchwhile.WatchWhileActivity
-	at HLOeKzPAcb.heBwnzbJidb.XposedHelpers.findClass(Unknown Source:12)
-	at HLOeKzPAcb.heBwnzbJidb.XposedHelpers.findAndHookMethod(SourceFile:2)
-	at ma.wanam.youtubeadaway.BFAsync.doInBackground(BFAsync.java:77)
-	at ma.wanam.youtubeadaway.BFAsync.doInBackground(BFAsync.java:27)
-	at android.os.AsyncTask$3.call(AsyncTask.java:394)
-	at java.util.concurrent.FutureTask.run(FutureTask.java:264)
-	... 4 more
-Caused by: java.lang.ClassNotFoundException: com.google.android.apps.youtube.app.watchwhile.WatchWhileActivity
-	at java.lang.Class.classForName(Native Method)
-	at java.lang.Class.forName(Class.java:454)
-	at q.a(Unknown Source:16)
-	at HLOeKzPAcb.heBwnzbJidb.XposedHelpers.findClass(Unknown Source:4)
-	... 9 more
-Caused by: java.lang.ClassNotFoundException: com.google.android.apps.youtube.app.watchwhile.WatchWhileActivity
-	... 13 more
-[ 2026-01-28T13:36:00.860    10691: 25255: 25255 I/LSPosed-Bridge  ] Loading legacy module ma.wanam.youtubeadaway from /data/app/~~1Ci09o1eGvc-RArwcVDJ9A==/ma.wanam.youtubeadaway-TOfODabjOHiWwxd_zJzEbQ==/base.apk
-[ 2026-01-28T13:36:00.879    10691: 25255: 25255 I/LSPosed-Bridge  ]   Loading class ma.wanam.youtubeadaway.Xposed
-[ 2026-01-28T13:36:00.920    10691: 25255: 25255 I/LSPosed-Bridge  ] YouTube AdAway version: 510
-[ 2026-01-28T13:36:37.673    10622: 25808: 25808 I/LSPosed-Bridge  ] Loading legacy module ma.wanam.youtubeadaway from /data/app/~~1Ci09o1eGvc-RArwcVDJ9A==/ma.wanam.youtubeadaway-TOfODabjOHiWwxd_zJzEbQ==/base.apk
-[ 2026-01-28T13:36:37.692    10622: 25808: 25808 I/LSPosed-Bridge  ]   Loading class ma.wanam.youtubeadaway.Xposed
-[ 2026-01-28T13:36:37.731    10622: 25808: 25808 I/LSPosed-Bridge  ] Hooking YouTube version: com.google.android.youtube 1560798656
-[ 2026-01-28T13:36:37.735    10622: 25808: 25831 I/LSPosed-Bridge  ] Crash unexpectedly: java.lang.RuntimeException: An error occurred while executing doInBackground()
-	at android.os.AsyncTask$4.done(AsyncTask.java:415)
-	at java.util.concurrent.FutureTask.finishCompletion(FutureTask.java:381)
-	at java.util.concurrent.FutureTask.setException(FutureTask.java:250)
-	at java.util.concurrent.FutureTask.run(FutureTask.java:269)
-	at android.os.AsyncTask$SerialExecutor$1.run(AsyncTask.java:305)
-	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1137)
-	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:637)
-	at java.lang.Thread.run(Thread.java:1012)
-Caused by: HLOeKzPAcb.heBwnzbJidb.XposedHelpers$ClassNotFoundError: java.lang.ClassNotFoundException: com.google.android.apps.youtube.app.watchwhile.WatchWhileActivity
-	at HLOeKzPAcb.heBwnzbJidb.XposedHelpers.findClass(Unknown Source:12)
-	at HLOeKzPAcb.heBwnzbJidb.XposedHelpers.findAndHookMethod(SourceFile:2)
-	at ma.wanam.youtubeadaway.BFAsync.doInBackground(BFAsync.java:77)
-	at ma.wanam.youtubeadaway.BFAsync.doInBackground(BFAsync.java:27)
-	at android.os.AsyncTask$3.call(AsyncTask.java:394)
-	at java.util.concurrent.FutureTask.run(FutureTask.java:264)
-	... 4 more
-Caused by: java.lang.ClassNotFoundException: com.google.android.apps.youtube.app.watchwhile.WatchWhileActivity
-	at java.lang.Class.classForName(Native Method)
-	at java.lang.Class.forName(Class.java:454)
-	at q.a(Unknown Source:16)
-	at HLOeKzPAcb.heBwnzbJidb.XposedHelpers.findClass(Unknown Source:4)
-	... 9 more
-Caused by: java.lang.ClassNotFoundException: com.google.android.apps.youtube.app.watchwhile.WatchWhileActivity
-	... 13 more
-[ 2026-01-28T13:36:38.810    10622: 25834: 25834 I/LSPosed-Bridge  ] Loading legacy module ma.wanam.youtubeadaway from /data/app/~~1Ci09o1eGvc-RArwcVDJ9A==/ma.wanam.youtubeadaway-TOfODabjOHiWwxd_zJzEbQ==/base.apk
-[ 2026-01-28T13:36:38.828    10622: 25834: 25834 I/LSPosed-Bridge  ]   Loading class ma.wanam.youtubeadaway.Xposed
-[ 2026-01-28T13:36:38.894    10622: 25834: 25834 I/LSPosed-Bridge  ] Hooking YouTube version: com.google.android.youtube 1560798656
-[ 2026-01-28T13:36:38.900    10622: 25834: 25857 I/LSPosed-Bridge  ] Crash unexpectedly: java.lang.RuntimeException: An error occurred while executing doInBackground()
-	at android.os.AsyncTask$4.done(AsyncTask.java:415)
-	at java.util.concurrent.FutureTask.finishCompletion(FutureTask.java:381)
-	at java.util.concurrent.FutureTask.setException(FutureTask.java:250)
-	at java.util.concurrent.FutureTask.run(FutureTask.java:269)
-	at android.os.AsyncTask$SerialExecutor$1.run(AsyncTask.java:305)
-	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1137)
-	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:637)
-	at java.lang.Thread.run(Thread.java:1012)
-Caused by: HLOeKzPAcb.heBwnzbJidb.XposedHelpers$ClassNotFoundError: java.lang.ClassNotFoundException: com.google.android.apps.youtube.app.watchwhile.WatchWhileActivity
-	at HLOeKzPAcb.heBwnzbJidb.XposedHelpers.findClass(Unknown Source:12)
-	at HLOeKzPAcb.heBwnzbJidb.XposedHelpers.findAndHookMethod(SourceFile:2)
-	at ma.wanam.youtubeadaway.BFAsync.doInBackground(BFAsync.java:77)
-	at ma.wanam.youtubeadaway.BFAsync.doInBackground(BFAsync.java:27)
-	at android.os.AsyncTask$3.call(AsyncTask.java:394)
-	at java.util.concurrent.FutureTask.run(FutureTask.java:264)
-	... 4 more
-Caused by: java.lang.ClassNotFoundException: com.google.android.apps.youtube.app.watchwhile.WatchWhileActivity
-	at java.lang.Class.classForName(Native Method)
-	at java.lang.Class.forName(Class.java:454)
-	at q.a(Unknown Source:16)
-	at HLOeKzPAcb.heBwnzbJidb.XposedHelpers.findClass(Unknown Source:4)
-	... 9 more
-Caused by: java.lang.ClassNotFoundException: com.google.android.apps.youtube.app.watchwhile.WatchWhileActivity
-	... 13 more
-[ 2026-01-28T13:36:43.388    10514: 25920: 25920 I/LSPosed-Bridge  ] Loading legacy module me.neko.fckvip from /data/app/~~YhadT-FUcpPUAk63eSUsTg==/me.neko.fckvip-n-91CVnoSyqWSiYsDNW9lQ==/base.apk
-[ 2026-01-28T13:36:43.437    10514: 25920: 25920 I/LSPosed-Bridge  ]   Loading class me.neko.fckvip.hook.hook_init.HookEntry
-[ 2026-01-28T13:36:43.531    10514: 25920: 25920 I/LSPosed-Bridge  ] 找不到Hook的方法: shouldBlockDirectoryFromTree
-[ 2026-01-28T13:36:43.560    10514: 25920: 25920 I/LSPosed-Bridge  ] [FCK_VIP][HookEntry][com.android.externalstorage][I] Module_v6.0.2-ref.r508.287fcee | Host: Penyimpanan Eksternal_v13
+----part 8 start----
+[ 2026-01-28T23:26:56.079    10697: 22944: 22944 I/LSPosed-Bridge  ] Loading legacy module ma.wanam.youtubeadaway from /data/app/~~rAmkAb2CI2TzPCGTLHcLdg==/ma.wanam.youtubeadaway-aO4fHiDm0Gd-eYvpqmDFKg==/base.apk
+[ 2026-01-28T23:26:56.101    10697: 22944: 22944 I/LSPosed-Bridge  ]   Loading class ma.wanam.youtubeadaway.Xposed
+[ 2026-01-28T23:26:56.158    10697: 22944: 22944 I/LSPosed-Bridge  ] YouTube AdAway version: 510
+[ 2026-01-28T23:27:02.706    10622: 22945: 22945 I/LSPosed-Bridge  ] Loading legacy module ma.wanam.youtubeadaway from /data/app/~~rAmkAb2CI2TzPCGTLHcLdg==/ma.wanam.youtubeadaway-aO4fHiDm0Gd-eYvpqmDFKg==/base.apk
+[ 2026-01-28T23:27:02.726    10622: 22945: 22945 I/LSPosed-Bridge  ]   Loading class ma.wanam.youtubeadaway.Xposed
+[ 2026-01-28T23:27:02.765    10622: 22945: 22945 I/LSPosed-Bridge  ] Hooking YouTube version: com.google.android.youtube 1560798656
+[ 2026-01-28T23:27:02.768    10622: 22945: 26552 I/LSPosed-Bridge  ] YouTube AdAway: Failed to hook WatchWhileActivity.onBackPressed, trying MainActivity...
+[ 2026-01-28T23:27:03.042    10622: 22945: 26552 I/LSPosed-Bridge  ] Found ad cards class: csu.as
+[ 2026-01-28T23:27:03.212    10622: 22945: 26552 I/LSPosed-Bridge  ] Found bg class: afex.d
+[ 2026-01-28T23:27:03.212    10622: 22945: 26552 I/LSPosed-Bridge  ] Video BG playback hooks applied in 0 seconds!
+[ 2026-01-28T23:27:03.248    10622: 22945: 26552 I/LSPosed-Bridge  ] Found emptyComponent class: gma.aE
+[ 2026-01-28T23:27:03.249    10622: 22945: 26552 I/LSPosed-Bridge  ] Ad cards hooks applied in 0 seconds!
+[ 2026-01-28T23:27:03.339    10622: 22945: 26552 I/LSPosed-Bridge  ] Found ad class: anst.e
+[ 2026-01-28T23:27:03.339    10622: 22945: 26552 I/LSPosed-Bridge  ] In-Video ads hooks applied in 0 seconds!
+[ 2026-01-28T23:27:04.906    10622: 22945: 22945 I/LSPosed-Bridge  ] Unable to find template's pathBuilder
+[ 2026-01-28T23:27:10.603    10622: 22946: 22946 I/LSPosed-Bridge  ] Loading legacy module ma.wanam.youtubeadaway from /data/app/~~rAmkAb2CI2TzPCGTLHcLdg==/ma.wanam.youtubeadaway-aO4fHiDm0Gd-eYvpqmDFKg==/base.apk
+[ 2026-01-28T23:27:10.622    10622: 22946: 22946 I/LSPosed-Bridge  ]   Loading class ma.wanam.youtubeadaway.Xposed
+[ 2026-01-28T23:27:10.658    10622: 22946: 22946 I/LSPosed-Bridge  ] Hooking YouTube version: com.google.android.youtube 1560798656
+[ 2026-01-28T23:27:10.661    10622: 22946: 26766 I/LSPosed-Bridge  ] YouTube AdAway: Failed to hook WatchWhileActivity.onBackPressed, trying MainActivity...
+[ 2026-01-28T23:27:10.868    10622: 22946: 26766 I/LSPosed-Bridge  ] Found ad cards class: csu.as
+[ 2026-01-28T23:27:11.052    10622: 22946: 26766 I/LSPosed-Bridge  ] Found bg class: afex.d
+[ 2026-01-28T23:27:11.052    10622: 22946: 26766 I/LSPosed-Bridge  ] Video BG playback hooks applied in 0 seconds!
+[ 2026-01-28T23:27:11.078    10622: 22946: 26766 I/LSPosed-Bridge  ] Found emptyComponent class: gma.aE
+[ 2026-01-28T23:27:11.079    10622: 22946: 26766 I/LSPosed-Bridge  ] Ad cards hooks applied in 0 seconds!
+[ 2026-01-28T23:27:11.170    10622: 22946: 26766 I/LSPosed-Bridge  ] Found ad class: anst.e
+[ 2026-01-28T23:27:11.170    10622: 22946: 26766 I/LSPosed-Bridge  ] In-Video ads hooks applied in 0 seconds!
+[ 2026-01-28T23:27:22.510    10622: 25021: 25021 I/LSPosed-Bridge  ] Loading legacy module ma.wanam.youtubeadaway from /data/app/~~rAmkAb2CI2TzPCGTLHcLdg==/ma.wanam.youtubeadaway-aO4fHiDm0Gd-eYvpqmDFKg==/base.apk
+[ 2026-01-28T23:27:22.527    10622: 25021: 25021 I/LSPosed-Bridge  ]   Loading class ma.wanam.youtubeadaway.Xposed
+[ 2026-01-28T23:27:22.567    10622: 25021: 25021 I/LSPosed-Bridge  ] Hooking YouTube version: com.google.android.youtube 1560798656
+[ 2026-01-28T23:27:22.569    10622: 25021: 27061 I/LSPosed-Bridge  ] YouTube AdAway: Failed to hook WatchWhileActivity.onBackPressed, trying MainActivity...
+[ 2026-01-28T23:27:22.802    10622: 25021: 27061 I/LSPosed-Bridge  ] Found ad cards class: csu.as
+[ 2026-01-28T23:27:22.911    10622: 25021: 27061 I/LSPosed-Bridge  ] Found bg class: afex.d
+[ 2026-01-28T23:27:22.911    10622: 25021: 27061 I/LSPosed-Bridge  ] Video BG playback hooks applied in 0 seconds!
+[ 2026-01-28T23:27:22.990    10622: 25021: 27061 I/LSPosed-Bridge  ] Found emptyComponent class: gma.aE
+[ 2026-01-28T23:27:22.991    10622: 25021: 27061 I/LSPosed-Bridge  ] Ad cards hooks applied in 0 seconds!
+[ 2026-01-28T23:27:23.091    10622: 25021: 27061 I/LSPosed-Bridge  ] Found ad class: anst.e
+[ 2026-01-28T23:27:23.091    10622: 25021: 27061 I/LSPosed-Bridge  ] In-Video ads hooks applied in 0 seconds!
+[ 2026-01-28T23:27:24.635    10622: 25021: 25021 I/LSPosed-Bridge  ] Unable to find template's pathBuilder
+[ 2026-01-28T23:27:44.110    10697: 25022: 25022 I/LSPosed-Bridge  ] Loading legacy module ma.wanam.youtubeadaway from /data/app/~~rAmkAb2CI2TzPCGTLHcLdg==/ma.wanam.youtubeadaway-aO4fHiDm0Gd-eYvpqmDFKg==/base.apk
+[ 2026-01-28T23:27:44.130    10697: 25022: 25022 I/LSPosed-Bridge  ]   Loading class ma.wanam.youtubeadaway.Xposed
+[ 2026-01-28T23:27:44.177    10697: 25022: 25022 I/LSPosed-Bridge  ] YouTube AdAway version: 510
+[ 2026-01-28T23:28:06.192    10514: 27579: 27579 I/LSPosed-Bridge  ] Loading legacy module me.neko.fckvip from /data/app/~~YhadT-FUcpPUAk63eSUsTg==/me.neko.fckvip-n-91CVnoSyqWSiYsDNW9lQ==/base.apk
+[ 2026-01-28T23:28:06.227    10514: 27579: 27579 I/LSPosed-Bridge  ]   Loading class me.neko.fckvip.hook.hook_init.HookEntry
+[ 2026-01-28T23:28:06.310    10514: 27579: 27579 I/LSPosed-Bridge  ] 找不到Hook的方法: shouldBlockDirectoryFromTree
+[ 2026-01-28T23:28:06.341    10514: 27579: 27579 I/LSPosed-Bridge  ] [FCK_VIP][HookEntry][com.android.externalstorage][I] Module_v6.0.2-ref.r508.287fcee | Host: Penyimpanan Eksternal_v13
