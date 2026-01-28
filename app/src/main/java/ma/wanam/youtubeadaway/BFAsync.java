@@ -1,5 +1,7 @@
 package ma.wanam.youtubeadaway;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Handler;
 import android.text.TextUtils;
@@ -40,6 +42,36 @@ public class BFAsync extends AsyncTask<XC_LoadPackage.LoadPackageParam, Void, Bo
             handler = new Handler();
         }
         return handler;
+    }
+
+    private Context getContext() {
+        try {
+            return (Context) XposedHelpers.callStaticMethod(
+                    XposedHelpers.findClass("android.app.ActivityThread", null),
+                    "currentApplication"
+            );
+        } catch (Throwable t) {
+            XposedBridge.log(t);
+            return null;
+        }
+    }
+
+    private void sendStatus(String feature, boolean isSuccess, String message) {
+        Context context = getContext();
+        if (context == null) {
+            XposedBridge.log("YouTube AdAway: Context is null, cannot send status: " + feature);
+            return;
+        }
+        try {
+            Intent intent = new Intent("ma.wanam.youtubeadaway.ACTION_STATUS");
+            intent.setPackage("ma.wanam.youtubeadaway");
+            intent.putExtra("feature", feature);
+            intent.putExtra("status", isSuccess);
+            intent.putExtra("message", message);
+            context.sendBroadcast(intent);
+        } catch (Throwable t) {
+            XposedBridge.log(t);
+        }
     }
 
     private static final String filterAds = new StringBuilder().append(".*(").append(String.join("|", new String[]{
@@ -187,6 +219,17 @@ public class BFAsync extends AsyncTask<XC_LoadPackage.LoadPackageParam, Void, Bo
                 }
             }
         }
+
+        if (!foundInVideoAds && Xposed.prefs.getBoolean("hide_invideo_ads", true)) {
+            sendStatus("Video Ads", false, "Could not find class");
+        }
+        if (!foundBGClass && Xposed.prefs.getBoolean("enable_bg_playback", true)) {
+            sendStatus("Background Playback", false, "Could not find class");
+        }
+        if (!foundCardAds && Xposed.prefs.getBoolean("hide_ad_cards", false)) {
+            sendStatus("Ad Cards", false, "Could not find class");
+        }
+
         return false;
     }
 
@@ -240,6 +283,7 @@ public class BFAsync extends AsyncTask<XC_LoadPackage.LoadPackageParam, Void, Bo
                         }
                     });
                     XposedBridge.log("Found ad class: " + aClass.getName() + "." + fMethod.getName());
+                    sendStatus("Video Ads", true, "Active");
                     return true;
                 }
             }
@@ -247,6 +291,7 @@ public class BFAsync extends AsyncTask<XC_LoadPackage.LoadPackageParam, Void, Bo
         } catch (Throwable e) {
             XposedBridge.log("YouTube AdAway: Failed to hook in-video ads class: " + aClass.getName());
             XposedBridge.log(e);
+            sendStatus("Video Ads", false, e.getMessage());
         }
         return false;
     }
@@ -278,12 +323,14 @@ public class BFAsync extends AsyncTask<XC_LoadPackage.LoadPackageParam, Void, Bo
             if (fMethods.size() > 5) {
                 XposedBridge.hookMethod(fMethods.get(0), XC_MethodReplacement.returnConstant(true));
                 XposedBridge.log("Found bg class: " + aClass.getName() + "." + fMethods.get(0).getName());
+                sendStatus("Background Playback", true, "Active");
                 return true;
             }
 
         } catch (Throwable e) {
             XposedBridge.log("YouTube AdAway: Failed to hook video bg playback class: " + aClass.getName());
             XposedBridge.log(e);
+            sendStatus("Background Playback", false, e.getMessage());
         }
         return false;
     }
@@ -399,13 +446,16 @@ public class BFAsync extends AsyncTask<XC_LoadPackage.LoadPackageParam, Void, Bo
                         }
                     } else {
                         XposedBridge.log("Unable to find template's pathBuilder");
+                        sendStatus("Ad Cards", false, "Unable to find template's pathBuilder");
                         unhookFilterMethod.unhook();
                     }
                 }
             });
+            sendStatus("Ad Cards", true, "Active");
         } catch (Throwable e) {
             XposedBridge.log("YouTube AdAway: Error hooking AdCards!");
             XposedBridge.log(e);
+            sendStatus("Ad Cards", false, e.getMessage());
         }
     }
 
