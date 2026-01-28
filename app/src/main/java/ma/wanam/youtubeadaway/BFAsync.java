@@ -9,12 +9,12 @@ import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.time.Duration;
 import java.time.Instant;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.Executor;
 import java.util.concurrent.LinkedBlockingQueue;
-import java.util.stream.Collectors;
 
 import de.robv.android.xposed.XC_MethodHook;
 import de.robv.android.xposed.XC_MethodReplacement;
@@ -188,26 +188,40 @@ public class BFAsync extends AsyncTask<XC_LoadPackage.LoadPackageParam, Void, Bo
         }
 
         try {
-            boolean sigAdFound = fields.length < 10 && (int) Arrays.stream(fields).parallel().filter(field -> field.getType().equals(Executor.class)
-                    || field.getType().equals(LinkedBlockingQueue.class)
-                    || field.getType().equals(Runnable.class)).count() == 3;
+            boolean sigAdFound = false;
+            if (fields.length < 10) {
+                int count = 0;
+                for (Field field : fields) {
+                    if (field.getType().equals(Executor.class)
+                            || field.getType().equals(LinkedBlockingQueue.class)
+                            || field.getType().equals(Runnable.class)) {
+                        count++;
+                    }
+                }
+                sigAdFound = count == 3;
+            }
 
             if (sigAdFound) {
-                Optional<Method> fMethod = Arrays.stream(methods).parallel().filter(method -> method.getParameterTypes().length == 1
-                        && method.getParameterTypes()[0].equals(boolean.class)
-                        && method.getReturnType().equals(void.class)
-                        && java.lang.reflect.Modifier.isFinal(method.getModifiers())
-                ).findAny();
+                Method fMethod = null;
+                for (Method method : methods) {
+                    if (method.getParameterTypes().length == 1
+                            && method.getParameterTypes()[0].equals(boolean.class)
+                            && method.getReturnType().equals(void.class)
+                            && java.lang.reflect.Modifier.isFinal(method.getModifiers())) {
+                        fMethod = method;
+                        break;
+                    }
+                }
 
-                sigAdFound = sigAdFound && fMethod.isPresent();
+                sigAdFound = fMethod != null;
                 if (sigAdFound) {
-                    XposedBridge.hookMethod(fMethod.get(), new XC_MethodHook() {
+                    XposedBridge.hookMethod(fMethod, new XC_MethodHook() {
                         @Override
                         protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
                             param.args[0] = false;
                         }
                     });
-                    XposedBridge.log("Found ad class: " + aClass.getName() + "." + fMethod.get().getName());
+                    XposedBridge.log("Found ad class: " + aClass.getName() + "." + fMethod.getName());
                     return true;
                 }
             }
@@ -231,14 +245,18 @@ public class BFAsync extends AsyncTask<XC_LoadPackage.LoadPackageParam, Void, Bo
         }
 
         try {
-            List<Method> fMethods = Arrays.stream(methods).parallel().filter(method -> method.getParameterTypes().length == 1
-                    && method.getName().length() == 1
-                    && method.getParameterTypes()[0].getName().length() == 4
-                    && method.getReturnType().equals(boolean.class)
-                    && method.getName().equals(method.getName().toLowerCase())
-                    && java.lang.reflect.Modifier.isStatic(method.getModifiers())
-                    && java.lang.reflect.Modifier.isPublic(method.getModifiers())
-            ).collect(Collectors.toList());
+            List<Method> fMethods = new ArrayList<>();
+            for (Method method : methods) {
+                if (method.getParameterTypes().length == 1
+                        && method.getName().length() == 1
+                        && method.getParameterTypes()[0].getName().length() == 4
+                        && method.getReturnType().equals(boolean.class)
+                        && method.getName().equals(method.getName().toLowerCase())
+                        && java.lang.reflect.Modifier.isStatic(method.getModifiers())
+                        && java.lang.reflect.Modifier.isPublic(method.getModifiers())) {
+                    fMethods.add(method);
+                }
+            }
 
             if (fMethods.size() > 5) {
                 XposedBridge.hookMethod(fMethods.get(0), XC_MethodReplacement.returnConstant(true));
@@ -266,14 +284,18 @@ public class BFAsync extends AsyncTask<XC_LoadPackage.LoadPackageParam, Void, Bo
 
         try {
             if (fingerprintMethod == null) {
-                List<Method> fMethods = Arrays.stream(methods).parallel().filter(method -> method.getParameterTypes().length == 7
-                        && method.getParameterTypes()[0].getName().length() == 3
-                        && method.getParameterTypes()[6].equals(boolean.class)
-                        && method.getParameterTypes()[5].equals(int.class)
-                        && method.getName().equals(method.getName().toLowerCase())
-                        && Modifier.isFinal(method.getModifiers())
-                        && Modifier.isPublic(method.getModifiers())
-                ).collect(Collectors.toList());
+                List<Method> fMethods = new ArrayList<>();
+                for (Method method : methods) {
+                    if (method.getParameterTypes().length == 7
+                            && method.getParameterTypes()[0].getName().length() == 3
+                            && method.getParameterTypes()[6].equals(boolean.class)
+                            && method.getParameterTypes()[5].equals(int.class)
+                            && method.getName().equals(method.getName().toLowerCase())
+                            && Modifier.isFinal(method.getModifiers())
+                            && Modifier.isPublic(method.getModifiers())) {
+                        fMethods.add(method);
+                    }
+                }
 
                 if (fMethods.size() == 1) {
                     fingerprintMethod = fMethods.size() == 1 ? fMethods.get(0) : null;
@@ -288,16 +310,23 @@ public class BFAsync extends AsyncTask<XC_LoadPackage.LoadPackageParam, Void, Bo
 
         try {
             if (emptyComponentMethod == null) {
-                List<Method> fMethods = Arrays.stream(methods).parallel().filter(method ->
-                        Modifier.isPublic(method.getModifiers())
-                                && Modifier.isStatic(method.getModifiers())
-                                && method.getParameterTypes().length == 1
-                ).collect(Collectors.toList());
+                List<Method> fMethods = new ArrayList<>();
+                for (Method method : methods) {
+                    if (Modifier.isPublic(method.getModifiers())
+                            && Modifier.isStatic(method.getModifiers())
+                            && method.getParameterTypes().length == 1) {
+                        fMethods.add(method);
+                    }
+                }
 
-                List<Method> fMethods2 = Arrays.stream(methods).parallel().filter(method -> Modifier.isProtected(method.getModifiers())
-                        && Modifier.isFinal(method.getModifiers())
-                        && method.getParameterTypes().length == 1
-                ).collect(Collectors.toList());
+                List<Method> fMethods2 = new ArrayList<>();
+                for (Method method : methods) {
+                    if (Modifier.isProtected(method.getModifiers())
+                            && Modifier.isFinal(method.getModifiers())
+                            && method.getParameterTypes().length == 1) {
+                        fMethods2.add(method);
+                    }
+                }
 
                 if (fMethods.size() == 1 && fMethods2.size() == 1 && methods.length == 2) {
                     emptyComponentMethod = fMethods.get(0);
@@ -319,9 +348,12 @@ public class BFAsync extends AsyncTask<XC_LoadPackage.LoadPackageParam, Void, Bo
                 @Override
                 protected void beforeHookedMethod(XC_MethodHook.MethodHookParam param) throws Throwable {
                     if (!pathBuilderField.isPresent()) {
-                        pathBuilderField = Arrays.stream(param.args[1].getClass().getDeclaredFields()).parallel().filter(field ->
-                                field.getType().equals(StringBuilder.class)
-                        ).findAny();
+                        for (Field field : param.args[1].getClass().getDeclaredFields()) {
+                            if (field.getType().equals(StringBuilder.class)) {
+                                pathBuilderField = Optional.of(field);
+                                break;
+                            }
+                        }
                     }
 
                     if (pathBuilderField.isPresent()) {
