@@ -378,11 +378,15 @@ public class BFAsync extends AsyncTask<XC_LoadPackage.LoadPackageParam, Void, Bo
                 protected void beforeHookedMethod(XC_MethodHook.MethodHookParam param) throws Throwable {
                     if (!pathBuilderField.isPresent()) {
                         pathBuilderField = findFieldInHierarchy(param.args[1].getClass(), StringBuilder.class);
+                        if (!pathBuilderField.isPresent()) {
+                            pathBuilderField = findFieldInHierarchy(param.args[1].getClass(), String.class);
+                        }
                     }
 
                     if (pathBuilderField.isPresent()) {
                         // Get template path
-                        String pathBuilder = pathBuilderField.get().get(param.args[1]).toString();
+                        Object pathBuilderObj = pathBuilderField.get().get(param.args[1]);
+                        String pathBuilder = pathBuilderObj == null ? "" : pathBuilderObj.toString();
                         if (!TextUtils.isEmpty(pathBuilder) && !filterIgnorePattern.matcher(pathBuilder).matches() && filterAdsPattern.matcher(pathBuilder).matches()) {
                             // Create emptyComponent from current componentContext
                             Object x = emptyComponentMethod.invoke(null, param.args[0]);
