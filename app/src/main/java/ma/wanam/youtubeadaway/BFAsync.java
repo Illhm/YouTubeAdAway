@@ -354,6 +354,7 @@ public class BFAsync extends AsyncTask<XC_LoadPackage.LoadPackageParam, Void, Bo
                     if (!pathBuilderField.isPresent()) {
                         for (Field field : param.args[1].getClass().getDeclaredFields()) {
                             if (field.getType().equals(StringBuilder.class)) {
+                                field.setAccessible(true);
                                 pathBuilderField = Optional.of(field);
                                 break;
                             }
@@ -362,7 +363,7 @@ public class BFAsync extends AsyncTask<XC_LoadPackage.LoadPackageParam, Void, Bo
 
                     if (pathBuilderField.isPresent()) {
                         // Get template path
-                        String pathBuilder = XposedHelpers.getObjectField(param.args[1], pathBuilderField.get().getName()).toString();
+                        String pathBuilder = pathBuilderField.get().get(param.args[1]).toString();
                         if (!TextUtils.isEmpty(pathBuilder) && !filterIgnorePattern.matcher(pathBuilder).matches() && filterAdsPattern.matcher(pathBuilder).matches()) {
                             // Create emptyComponent from current componentContext
                             Object x = emptyComponentMethod.invoke(null, param.args[0]);
