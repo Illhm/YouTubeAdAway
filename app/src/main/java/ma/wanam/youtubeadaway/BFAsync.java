@@ -91,10 +91,21 @@ public class BFAsync extends AsyncTask<XC_LoadPackage.LoadPackageParam, Void, Bo
                 }
             };
 
-            try {
-                XposedHelpers.findAndHookMethod("com.google.android.apps.youtube.app.watchwhile.WatchWhileActivity", cl, "onBackPressed", onBackPressedHook);
-            } catch (Throwable e) {
-                XposedBridge.log("YouTube AdAway: Failed to hook WatchWhileActivity.onBackPressed, trying MainActivity...");
+            boolean hooked = false;
+            Class<?> watchWhileActivityClass = XposedHelpers.findClassIfExists("com.google.android.apps.youtube.app.watchwhile.WatchWhileActivity", cl);
+            if (watchWhileActivityClass != null) {
+                try {
+                    XposedHelpers.findAndHookMethod(watchWhileActivityClass, "onBackPressed", onBackPressedHook);
+                    hooked = true;
+                } catch (Throwable e) {
+                    XposedBridge.log("YouTube AdAway: WatchWhileActivity found but onBackPressed hook failed: " + e.getMessage());
+                }
+            } else {
+                XposedBridge.log("YouTube AdAway: WatchWhileActivity class not found.");
+            }
+
+            if (!hooked) {
+                XposedBridge.log("YouTube AdAway: Trying MainActivity fallback...");
                 try {
                     XposedHelpers.findAndHookMethod("com.google.android.apps.youtube.app.watchwhile.MainActivity", cl, "onBackPressed", onBackPressedHook);
                 } catch (Throwable e2) {
@@ -179,47 +190,49 @@ public class BFAsync extends AsyncTask<XC_LoadPackage.LoadPackageParam, Void, Bo
         return false;
     }
 
+    private boolean checkFieldSignature(Class<?> clazz, int maxFields, List<Class<?>> types, int expectedCount) {
+        Field[] fields = clazz.getDeclaredFields();
+        if (maxFields > 0 && fields.length > maxFields) return false;
+        int count = 0;
+        for (Field field : fields) {
+            if (types.contains(field.getType())) {
+                count++;
+            }
+        }
+        return count == expectedCount;
+    }
+
+    private boolean checkMethodParams(Method method, Class<?> returnType, Class<?>... paramTypes) {
+        if (returnType != null && !method.getReturnType().equals(returnType)) return false;
+        if (paramTypes.length != method.getParameterTypes().length) return false;
+        for (int i = 0; i < paramTypes.length; i++) {
+            if (paramTypes[i] != null && !paramTypes[i].equals(method.getParameterTypes()[i])) return false;
+        }
+        return true;
+    }
+
     private boolean findAndHookInvideoAds(String clsName, ClassLoader cl) {
         Class<?> aClass;
-        Field[] fields;
         Method[] methods;
 
         try {
             aClass = XposedHelpers.findClass(clsName, cl);
-            fields = aClass.getDeclaredFields();
             methods = aClass.getDeclaredMethods();
         } catch (Throwable e1) {
             return false;
         }
 
         try {
-            boolean sigAdFound = false;
-            if (fields.length < 10) {
-                int count = 0;
-                for (Field field : fields) {
-                    if (field.getType().equals(Executor.class)
-                            || field.getType().equals(LinkedBlockingQueue.class)
-                            || field.getType().equals(Runnable.class)) {
-                        count++;
-                    }
-                }
-                sigAdFound = count == 3;
-            }
-
-            if (sigAdFound) {
+            if (checkFieldSignature(aClass, 10, Arrays.asList(Executor.class, LinkedBlockingQueue.class, Runnable.class), 3)) {
                 Method fMethod = null;
                 for (Method method : methods) {
-                    if (method.getParameterTypes().length == 1
-                            && method.getParameterTypes()[0].equals(boolean.class)
-                            && method.getReturnType().equals(void.class)
-                            && java.lang.reflect.Modifier.isFinal(method.getModifiers())) {
+                    if (checkMethodParams(method, void.class, boolean.class) && Modifier.isFinal(method.getModifiers())) {
                         fMethod = method;
                         break;
                     }
                 }
 
-                sigAdFound = fMethod != null;
-                if (sigAdFound) {
+                if (fMethod != null) {
                     XposedBridge.hookMethod(fMethod, new XC_MethodHook() {
                         @Override
                         protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
@@ -252,13 +265,12 @@ public class BFAsync extends AsyncTask<XC_LoadPackage.LoadPackageParam, Void, Bo
         try {
             List<Method> fMethods = new ArrayList<>();
             for (Method method : methods) {
-                if (method.getParameterTypes().length == 1
+                if (checkMethodParams(method, boolean.class, (Class<?>) null)
                         && method.getName().length() == 1
                         && method.getParameterTypes()[0].getName().length() == 4
-                        && method.getReturnType().equals(boolean.class)
                         && method.getName().equals(method.getName().toLowerCase())
-                        && java.lang.reflect.Modifier.isStatic(method.getModifiers())
-                        && java.lang.reflect.Modifier.isPublic(method.getModifiers())) {
+                        && Modifier.isStatic(method.getModifiers())
+                        && Modifier.isPublic(method.getModifiers())) {
                     fMethods.add(method);
                 }
             }
@@ -291,10 +303,8 @@ public class BFAsync extends AsyncTask<XC_LoadPackage.LoadPackageParam, Void, Bo
             if (fingerprintMethod == null) {
                 List<Method> fMethods = new ArrayList<>();
                 for (Method method : methods) {
-                    if (method.getParameterTypes().length == 7
+                    if (checkMethodParams(method, null, null, null, null, null, null, int.class, boolean.class)
                             && method.getParameterTypes()[0].getName().length() == 3
-                            && method.getParameterTypes()[6].equals(boolean.class)
-                            && method.getParameterTypes()[5].equals(int.class)
                             && method.getName().equals(method.getName().toLowerCase())
                             && Modifier.isFinal(method.getModifiers())
                             && Modifier.isPublic(method.getModifiers())) {
@@ -346,6 +356,20 @@ public class BFAsync extends AsyncTask<XC_LoadPackage.LoadPackageParam, Void, Bo
         return false;
     }
 
+    private Optional<Field> findFieldInHierarchy(Class<?> clazz, Class<?> type) {
+        Class<?> current = clazz;
+        while (current != null && current != Object.class) {
+            for (Field field : current.getDeclaredFields()) {
+                if (field.getType().equals(type)) {
+                    field.setAccessible(true);
+                    return Optional.of(field);
+                }
+            }
+            current = current.getSuperclass();
+        }
+        return Optional.empty();
+    }
+
     private void hookAdCardsMethods(Method fingerprintMethod, final Method emptyComponentMethod) {
 
         try {
@@ -353,13 +377,7 @@ public class BFAsync extends AsyncTask<XC_LoadPackage.LoadPackageParam, Void, Bo
                 @Override
                 protected void beforeHookedMethod(XC_MethodHook.MethodHookParam param) throws Throwable {
                     if (!pathBuilderField.isPresent()) {
-                        for (Field field : param.args[1].getClass().getDeclaredFields()) {
-                            if (field.getType().equals(StringBuilder.class)) {
-                                field.setAccessible(true);
-                                pathBuilderField = Optional.of(field);
-                                break;
-                            }
-                        }
+                        pathBuilderField = findFieldInHierarchy(param.args[1].getClass(), StringBuilder.class);
                     }
 
                     if (pathBuilderField.isPresent()) {
