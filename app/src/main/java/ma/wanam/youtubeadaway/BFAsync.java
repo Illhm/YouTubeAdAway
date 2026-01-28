@@ -42,7 +42,7 @@ public class BFAsync extends AsyncTask<XC_LoadPackage.LoadPackageParam, Void, Bo
         return handler;
     }
 
-    private static final String filterAds = new StringBuffer().append(".*(").append(String.join("|", new String[]{
+    private static final String filterAds = new StringBuilder().append(".*(").append(String.join("|", new String[]{
             "ads_video_with_context",
             "banner_text_icon",
             "square_image_layout",
@@ -61,7 +61,7 @@ public class BFAsync extends AsyncTask<XC_LoadPackage.LoadPackageParam, Void, Bo
             "paid_content_overlay"
     })).append(").*").toString();
 
-    private static final String filterIgnore = new StringBuffer().append(".*(").append(String.join("|", new String[]{
+    private static final String filterIgnore = new StringBuilder().append(".*(").append(String.join("|", new String[]{
             "home_video_with_context",
             "related_video_with_context",
             "comment_thread",
