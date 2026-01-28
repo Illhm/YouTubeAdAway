@@ -4,6 +4,7 @@ import android.os.AsyncTask;
 import android.os.Handler;
 import android.text.TextUtils;
 
+import java.util.regex.Pattern;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
@@ -68,6 +69,9 @@ public class BFAsync extends AsyncTask<XC_LoadPackage.LoadPackageParam, Void, Bo
             "library_recent_shelf",
             "playlist_add_to_option_wrapper"
     })).append(").*").toString();
+
+    private static final Pattern filterAdsPattern = Pattern.compile(filterAds);
+    private static final Pattern filterIgnorePattern = Pattern.compile(filterIgnore);
 
     @Override
     protected Boolean doInBackground(XC_LoadPackage.LoadPackageParam... params) {
@@ -359,7 +363,7 @@ public class BFAsync extends AsyncTask<XC_LoadPackage.LoadPackageParam, Void, Bo
                     if (pathBuilderField.isPresent()) {
                         // Get template path
                         String pathBuilder = XposedHelpers.getObjectField(param.args[1], pathBuilderField.get().getName()).toString();
-                        if (!TextUtils.isEmpty(pathBuilder) && !pathBuilder.matches(filterIgnore) && pathBuilder.matches(filterAds)) {
+                        if (!TextUtils.isEmpty(pathBuilder) && !filterIgnorePattern.matcher(pathBuilder).matches() && filterAdsPattern.matcher(pathBuilder).matches()) {
                             // Create emptyComponent from current componentContext
                             Object x = emptyComponentMethod.invoke(null, param.args[0]);
                             // Get created emptyComponent
