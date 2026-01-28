@@ -1,6 +1,4 @@
 name: Build Release
-name: Build Release 
-
 
 on:
   push:
@@ -10,9 +8,11 @@ on:
   pull_request:
     branches: [ "master", "main" ]
 
+permissions:
+  contents: write
+
 jobs:
   build:
-
     runs-on: ubuntu-latest
 
     steps:
@@ -28,31 +28,31 @@ jobs:
     - name: Grant execute permission for gradlew
       run: chmod +x gradlew
 
-    - name: Build Release APK
-      run: ./gradlew assembleRelease
+    - name: Build Release APK with Auto Version
+      # Disini kuncinya: Kita kirim github.run_number ke Gradle
+      run: ./gradlew assembleRelease -PversionCode=${{ github.run_number }} -PversionName=1.0.${{ github.run_number }}
 
     - name: Sign Release APK
       run: |
-
         keytool -genkey -v -keystore release.keystore -alias android -keyalg RSA -keysize 2048 -validity 10000 -storepass android -keypass android -dname "CN=Android Debug,O=Android,C=US"
-
         
         BUILD_TOOLS_VERSION=$(ls $ANDROID_SDK_ROOT/build-tools/ | sort -n | tail -1)
         APKSIGNER=$ANDROID_SDK_ROOT/build-tools/$BUILD_TOOLS_VERSION/apksigner
 
-        # Sign the APK
         $APKSIGNER sign --ks release.keystore --ks-key-alias android --ks-pass pass:android --key-pass pass:android --out app/build/outputs/apk/release/app-release-signed.apk app/build/outputs/apk/release/app-release-unsigned.apk
 
-        # Verify
         $APKSIGNER verify app/build/outputs/apk/release/app-release-signed.apk
 
-
-    - name: Upload Release APK
+    - name: Upload Artifact
       uses: actions/upload-artifact@v4
       with:
         name: app-release
-
         path: app/build/outputs/apk/release/app-release-signed.apk
 
-        path: app/build/outputs/apk/release/*.apk
-
+    - name: Create Release
+      if: startsWith(github.ref, 'refs/tags/')
+      uses: softprops/action-gh-release@v1
+      with:
+        # Nama release di GitHub nanti juga ikut otomatis, misal: Release 1.0.45
+        name: Release 1.0.${{ github.run_number }}
+        files: app/build/outputs/apk/release/app-release-signed.apk
