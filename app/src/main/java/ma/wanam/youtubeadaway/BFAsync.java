@@ -74,29 +74,42 @@ public class BFAsync extends AsyncTask<XC_LoadPackage.LoadPackageParam, Void, Bo
         ClassLoader cl = params[0].classLoader;
 
         if (params[0].packageName.equals(Constants.GOOGLE_YOUTUBE_PACKAGE) && Xposed.prefs.getBoolean("hide_ad_cards", false)) {
-            XposedHelpers.findAndHookMethod("com.google.android.apps.youtube.app.watchwhile.WatchWhileActivity", cl, "onBackPressed", new XC_MethodHook() {
-                @Override
-                protected void afterHookedMethod(MethodHookParam param) throws Throwable {
-                    if (isAtTopOfView) {
-                        XposedHelpers.callMethod(param.thisObject, "finish");
-                    } else {
-                        getHandler().removeCallbacksAndMessages(null);
-                        getHandler().postDelayed(() -> isAtTopOfView = true, 1000);
-                    }
-                }
-            });
-
-            XposedHelpers.findAndHookMethod("android.support.v7.widget.RecyclerView", cl, "stopNestedScroll",
-                    new XC_MethodHook() {
-                        @Override
-                        protected void afterHookedMethod(MethodHookParam param) throws Throwable {
+            try {
+                XposedHelpers.findAndHookMethod("com.google.android.apps.youtube.app.watchwhile.WatchWhileActivity", cl, "onBackPressed", new XC_MethodHook() {
+                    @Override
+                    protected void afterHookedMethod(MethodHookParam param) throws Throwable {
+                        if (isAtTopOfView) {
+                            XposedHelpers.callMethod(param.thisObject, "finish");
+                        } else {
                             getHandler().removeCallbacksAndMessages(null);
-                            isAtTopOfView = false;
-                            getHandler().postDelayed(
-                                    () -> isAtTopOfView = !(boolean) XposedHelpers.callMethod(param.thisObject, "canScrollVertically", -1)
-                                    , 1000);
+                            getHandler().postDelayed(() -> isAtTopOfView = true, 1000);
                         }
-                    });
+                    }
+                });
+            } catch (Throwable e) {
+                XposedBridge.log(e);
+            }
+
+            try {
+                XC_MethodHook stopNestedScrollHook = new XC_MethodHook() {
+                    @Override
+                    protected void afterHookedMethod(MethodHookParam param) throws Throwable {
+                        getHandler().removeCallbacksAndMessages(null);
+                        isAtTopOfView = false;
+                        getHandler().postDelayed(
+                                () -> isAtTopOfView = !(boolean) XposedHelpers.callMethod(param.thisObject, "canScrollVertically", -1)
+                                , 1000);
+                    }
+                };
+
+                try {
+                    XposedHelpers.findAndHookMethod("android.support.v7.widget.RecyclerView", cl, "stopNestedScroll", stopNestedScrollHook);
+                } catch (Throwable t) {
+                    XposedHelpers.findAndHookMethod("androidx.recyclerview.widget.RecyclerView", cl, "stopNestedScroll", stopNestedScrollHook);
+                }
+            } catch (Throwable e) {
+                XposedBridge.log(e);
+            }
         }
 
         return bruteForceAds(cl);
