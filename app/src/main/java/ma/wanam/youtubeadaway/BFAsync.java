@@ -74,21 +74,28 @@ public class BFAsync extends AsyncTask<XC_LoadPackage.LoadPackageParam, Void, Bo
         ClassLoader cl = params[0].classLoader;
 
         if (params[0].packageName.equals(Constants.GOOGLE_YOUTUBE_PACKAGE) && Xposed.prefs.getBoolean("hide_ad_cards", false)) {
-            try {
-                XposedHelpers.findAndHookMethod("com.google.android.apps.youtube.app.watchwhile.WatchWhileActivity", cl, "onBackPressed", new XC_MethodHook() {
-                    @Override
-                    protected void afterHookedMethod(MethodHookParam param) throws Throwable {
-                        if (isAtTopOfView) {
-                            XposedHelpers.callMethod(param.thisObject, "finish");
-                        } else {
-                            getHandler().removeCallbacksAndMessages(null);
-                            getHandler().postDelayed(() -> isAtTopOfView = true, 1000);
-                        }
+            XC_MethodHook onBackPressedHook = new XC_MethodHook() {
+                @Override
+                protected void afterHookedMethod(MethodHookParam param) throws Throwable {
+                    if (isAtTopOfView) {
+                        XposedHelpers.callMethod(param.thisObject, "finish");
+                    } else {
+                        getHandler().removeCallbacksAndMessages(null);
+                        getHandler().postDelayed(() -> isAtTopOfView = true, 1000);
                     }
-                });
+                }
+            };
+
+            try {
+                XposedHelpers.findAndHookMethod("com.google.android.apps.youtube.app.watchwhile.WatchWhileActivity", cl, "onBackPressed", onBackPressedHook);
             } catch (Throwable e) {
-                XposedBridge.log("YouTube AdAway: Failed to hook WatchWhileActivity.onBackPressed");
-                XposedBridge.log(e);
+                XposedBridge.log("YouTube AdAway: Failed to hook WatchWhileActivity.onBackPressed, trying MainActivity...");
+                try {
+                    XposedHelpers.findAndHookMethod("com.google.android.apps.youtube.app.watchwhile.MainActivity", cl, "onBackPressed", onBackPressedHook);
+                } catch (Throwable e2) {
+                    XposedBridge.log("YouTube AdAway: Failed to hook MainActivity.onBackPressed");
+                    XposedBridge.log(e2);
+                }
             }
 
             XC_MethodHook recyclerViewHook = new XC_MethodHook() {
@@ -306,8 +313,6 @@ public class BFAsync extends AsyncTask<XC_LoadPackage.LoadPackageParam, Void, Bo
                     if (!pathBuilderField.isPresent()) {
                         pathBuilderField = Arrays.stream(param.args[1].getClass().getDeclaredFields()).parallel().filter(field ->
                                 field.getType().equals(StringBuilder.class)
-                                        && Modifier.isFinal(field.getModifiers())
-                                        && Modifier.isPublic(field.getModifiers())
                         ).findAny();
                     }
 
