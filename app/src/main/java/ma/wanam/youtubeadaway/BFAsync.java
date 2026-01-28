@@ -1,5 +1,7 @@
 package ma.wanam.youtubeadaway;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Handler;
 import android.text.TextUtils;
@@ -143,9 +145,13 @@ public class BFAsync extends AsyncTask<XC_LoadPackage.LoadPackageParam, Void, Bo
 
     private boolean bruteForceAds(ClassLoader cl) {
         Instant start = Instant.now();
-        boolean foundBGClass = !Xposed.prefs.getBoolean("enable_bg_playback", true),
-                foundInVideoAds = !Xposed.prefs.getBoolean("hide_invideo_ads", true),
-                foundCardAds = !Xposed.prefs.getBoolean("hide_ad_cards", false),
+        boolean featureBgEnabled = Xposed.prefs.getBoolean("enable_bg_playback", true);
+        boolean featureInVideoEnabled = Xposed.prefs.getBoolean("hide_invideo_ads", true);
+        boolean featureCardsEnabled = Xposed.prefs.getBoolean("hide_ad_cards", false);
+
+        boolean foundBGClass = !featureBgEnabled,
+                foundInVideoAds = !featureInVideoEnabled,
+                foundCardAds = !featureCardsEnabled,
                 skip;
 
         Class3C heapPermutation = new Class3C();
@@ -187,7 +193,43 @@ public class BFAsync extends AsyncTask<XC_LoadPackage.LoadPackageParam, Void, Bo
                 }
             }
         }
+
+        if (featureInVideoEnabled && !foundInVideoAds) {
+            broadcastStatus("video_ads", false, "Failed to find In-Video Ads class");
+        }
+        if (featureBgEnabled && !foundBGClass) {
+            broadcastStatus("bg_playback", false, "Failed to find BG Playback class");
+        }
+        if (featureCardsEnabled && !foundCardAds) {
+            broadcastStatus("ad_cards", false, "Failed to find Ad Cards class");
+        }
+
         return false;
+    }
+
+    private void broadcastStatus(String feature, boolean status, String message) {
+        try {
+            Context context = getContext();
+            if (context != null) {
+                Intent intent = new Intent("ma.wanam.youtubeadaway.ACTION_STATUS");
+                intent.putExtra("FEATURE", feature);
+                intent.putExtra("STATUS", status);
+                intent.putExtra("MESSAGE", message);
+                context.sendBroadcast(intent);
+            }
+        } catch (Throwable t) {
+            XposedBridge.log(t);
+        }
+    }
+
+    private Context getContext() {
+        try {
+            Class<?> activityThreadClass = Class.forName("android.app.ActivityThread");
+            Method method = activityThreadClass.getMethod("currentApplication");
+            return (Context) method.invoke(null);
+        } catch (Throwable e) {
+            return null;
+        }
     }
 
     private boolean checkFieldSignature(Class<?> clazz, int maxFields, List<Class<?>> types, int expectedCount) {
@@ -239,7 +281,9 @@ public class BFAsync extends AsyncTask<XC_LoadPackage.LoadPackageParam, Void, Bo
                             param.args[0] = false;
                         }
                     });
-                    XposedBridge.log("Found ad class: " + aClass.getName() + "." + fMethod.getName());
+                    String msg = "Found ad class: " + aClass.getName() + "." + fMethod.getName();
+                    XposedBridge.log(msg);
+                    broadcastStatus("video_ads", true, msg);
                     return true;
                 }
             }
@@ -277,7 +321,9 @@ public class BFAsync extends AsyncTask<XC_LoadPackage.LoadPackageParam, Void, Bo
 
             if (fMethods.size() > 5) {
                 XposedBridge.hookMethod(fMethods.get(0), XC_MethodReplacement.returnConstant(true));
-                XposedBridge.log("Found bg class: " + aClass.getName() + "." + fMethods.get(0).getName());
+                String msg = "Found bg class: " + aClass.getName() + "." + fMethods.get(0).getName();
+                XposedBridge.log(msg);
+                broadcastStatus("bg_playback", true, msg);
                 return true;
             }
 
@@ -398,14 +444,18 @@ public class BFAsync extends AsyncTask<XC_LoadPackage.LoadPackageParam, Void, Bo
                             param.setResult(y);
                         }
                     } else {
-                        XposedBridge.log("Unable to find template's pathBuilder");
+                        String msg = "Unable to find template's pathBuilder";
+                        XposedBridge.log(msg);
                         unhookFilterMethod.unhook();
+                        broadcastStatus("ad_cards", false, msg);
                     }
                 }
             });
+            broadcastStatus("ad_cards", true, "Ad cards hooks applied");
         } catch (Throwable e) {
             XposedBridge.log("YouTube AdAway: Error hooking AdCards!");
             XposedBridge.log(e);
+            broadcastStatus("ad_cards", false, "Error hooking AdCards: " + e.getMessage());
         }
     }
 
