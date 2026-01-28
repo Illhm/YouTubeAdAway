@@ -74,7 +74,7 @@ public class BFAsync extends AsyncTask<XC_LoadPackage.LoadPackageParam, Void, Bo
         ClassLoader cl = params[0].classLoader;
 
         if (params[0].packageName.equals(Constants.GOOGLE_YOUTUBE_PACKAGE) && Xposed.prefs.getBoolean("hide_ad_cards", false)) {
-            XposedHelpers.findAndHookMethod("com.google.android.apps.youtube.app.watchwhile.WatchWhileActivity", cl, "onBackPressed", new XC_MethodHook() {
+            XC_MethodHook onBackPressedHook = new XC_MethodHook() {
                 @Override
                 protected void afterHookedMethod(MethodHookParam param) throws Throwable {
                     if (isAtTopOfView) {
@@ -84,19 +84,42 @@ public class BFAsync extends AsyncTask<XC_LoadPackage.LoadPackageParam, Void, Bo
                         getHandler().postDelayed(() -> isAtTopOfView = true, 1000);
                     }
                 }
-            });
+            };
 
-            XposedHelpers.findAndHookMethod("android.support.v7.widget.RecyclerView", cl, "stopNestedScroll",
-                    new XC_MethodHook() {
-                        @Override
-                        protected void afterHookedMethod(MethodHookParam param) throws Throwable {
-                            getHandler().removeCallbacksAndMessages(null);
-                            isAtTopOfView = false;
-                            getHandler().postDelayed(
-                                    () -> isAtTopOfView = !(boolean) XposedHelpers.callMethod(param.thisObject, "canScrollVertically", -1)
-                                    , 1000);
-                        }
-                    });
+            try {
+                XposedHelpers.findAndHookMethod("com.google.android.apps.youtube.app.watchwhile.WatchWhileActivity", cl, "onBackPressed", onBackPressedHook);
+            } catch (Throwable e) {
+                XposedBridge.log("YouTube AdAway: Failed to hook WatchWhileActivity.onBackPressed, trying MainActivity...");
+                try {
+                    XposedHelpers.findAndHookMethod("com.google.android.apps.youtube.app.watchwhile.MainActivity", cl, "onBackPressed", onBackPressedHook);
+                } catch (Throwable e2) {
+                    XposedBridge.log("YouTube AdAway: Failed to hook MainActivity.onBackPressed");
+                    XposedBridge.log(e2);
+                }
+            }
+
+            XC_MethodHook recyclerViewHook = new XC_MethodHook() {
+                @Override
+                protected void afterHookedMethod(MethodHookParam param) throws Throwable {
+                    getHandler().removeCallbacksAndMessages(null);
+                    isAtTopOfView = false;
+                    getHandler().postDelayed(
+                            () -> isAtTopOfView = !(boolean) XposedHelpers.callMethod(param.thisObject, "canScrollVertically", -1)
+                            , 1000);
+                }
+            };
+
+            try {
+                XposedHelpers.findAndHookMethod("android.support.v7.widget.RecyclerView", cl, "stopNestedScroll", recyclerViewHook);
+            } catch (Throwable e) {
+                // Ignore, might be using AndroidX
+            }
+
+            try {
+                XposedHelpers.findAndHookMethod("androidx.recyclerview.widget.RecyclerView", cl, "stopNestedScroll", recyclerViewHook);
+            } catch (Throwable e) {
+                // Ignore
+            }
         }
 
         return bruteForceAds(cl);
@@ -290,8 +313,6 @@ public class BFAsync extends AsyncTask<XC_LoadPackage.LoadPackageParam, Void, Bo
                     if (!pathBuilderField.isPresent()) {
                         pathBuilderField = Arrays.stream(param.args[1].getClass().getDeclaredFields()).parallel().filter(field ->
                                 field.getType().equals(StringBuilder.class)
-                                        && Modifier.isFinal(field.getModifiers())
-                                        && Modifier.isPublic(field.getModifiers())
                         ).findAny();
                     }
 
