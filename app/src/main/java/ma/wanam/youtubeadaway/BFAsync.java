@@ -133,14 +133,18 @@ public class BFAsync extends AsyncTask<XC_LoadPackage.LoadPackageParam, Void, Bo
                 skip;
 
         Class3C heapPermutation = new Class3C();
+        StringBuilder sb = new StringBuilder();
         while (heapPermutation.hasNext()) {
             String clsName = heapPermutation.next();
             skip = false;
 
             if (foundInVideoAds && foundCardAds && foundBGClass) return true;
 
+            String nameWithA = null;
             if (!skip && !foundInVideoAds) {
-                foundInVideoAds = findAndHookInvideoAds(new StringBuilder().append('a').append(clsName).toString(), cl);
+                sb.setLength(0);
+                nameWithA = sb.append('a').append(clsName).toString();
+                foundInVideoAds = findAndHookInvideoAds(nameWithA, cl);
                 if (foundInVideoAds) {
                     skip = true;
                     XposedBridge.log("In-Video ads hooks applied in " + Duration.between(start, Instant.now()).getSeconds() + " seconds!");
@@ -148,7 +152,11 @@ public class BFAsync extends AsyncTask<XC_LoadPackage.LoadPackageParam, Void, Bo
             }
 
             if (!skip && !foundBGClass) {
-                foundBGClass = findAndHookVideoBGP4C(new StringBuilder().append('a').append(clsName).toString(), cl);
+                if (nameWithA == null) {
+                    sb.setLength(0);
+                    nameWithA = sb.append('a').append(clsName).toString();
+                }
+                foundBGClass = findAndHookVideoBGP4C(nameWithA, cl);
                 if (foundBGClass) {
                     skip = true;
                     XposedBridge.log("Video BG playback hooks applied in " + Duration.between(start, Instant.now()).getSeconds() + " seconds!");
@@ -156,7 +164,7 @@ public class BFAsync extends AsyncTask<XC_LoadPackage.LoadPackageParam, Void, Bo
             }
 
             if (!skip && !foundCardAds) {
-                foundCardAds = findAdCardsMethods(new StringBuilder().append(clsName).toString(), cl);
+                foundCardAds = findAdCardsMethods(clsName, cl);
                 if (foundCardAds) {
                     hookAdCardsMethods(fingerprintMethod, emptyComponentMethod);
                     XposedBridge.log("Ad cards hooks applied in " + Duration.between(start, Instant.now()).getSeconds() + " seconds!");
