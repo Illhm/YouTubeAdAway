@@ -1,0 +1,12 @@
+.gradle/
+build/
+app/build/
+local.properties
+.idea/
+*.iml
+.DS_Store
+captures/
+test_output.txt
+test_output_2.txt
+test_output_3.txt
+test_output_4.txt
