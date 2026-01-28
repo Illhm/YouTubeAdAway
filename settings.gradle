@@ -4,6 +4,7 @@ dependencyResolutionManagement {
         mavenCentral()
         google()
         jcenter()
+        maven { url "https://api.xposed.info/" }
     }
 }
 rootProject.name = "YouTube AdAway"
